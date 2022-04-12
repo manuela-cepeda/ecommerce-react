@@ -7,6 +7,7 @@ const products = [
       imageAlt: "Front of men's Basic Tee in black.",
       price: '$35',
       color: 'Black',
+      stock: 10,
     },
     {
         id: 2,
@@ -16,6 +17,7 @@ const products = [
         imageAlt: "Front of men's Basic Tee in black.",
         price: '$35',
         color: 'White',
+        stock: 10,
       },
       {
         id: 3,
@@ -25,6 +27,7 @@ const products = [
         imageAlt: "Front of men's Basic Tee in black.",
         price: '$35',
         color: 'Charcoal',
+        stock: 10,
       },
       {
         id: 4,
@@ -34,6 +37,7 @@ const products = [
         imageAlt: "Front of men's Basic Tee in black.",
         price: '$35',
         color: 'Dots',
+        stock: 10,
       },
   ];
 

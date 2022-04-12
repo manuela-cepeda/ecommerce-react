@@ -1,5 +1,4 @@
 
-
   
   const Item = ( {product}) => {
     return (
