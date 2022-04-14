@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import customFetch from "../utils/customFetch";
 import ItemCount from "./ItemCount";
 import ItemList from "./ItemList";
@@ -6,24 +7,29 @@ import ItemList from "./ItemList";
 const { products } = require('../utils/datos');
 
 
-const ItemListContainer = ({ greeting }) => {
+const ItemListContainer = () => {
 
   const [datos, setDatos] = useState([]);
-  console.log(datos)
+  const {idCategory} = useParams();
+ 
   useEffect(() => {
-    customFetch(2000, products)
+    if(idCategory === undefined){
+    customFetch(500, products)
         .then(result => setDatos(result))
         .catch(err => console.log(err))
-}, [datos]);
+    } else {
+      customFetch(500, products.filter(item => item.category === parseInt(idCategory)))
+        .then(result => setDatos(result))
+        .catch(err => console.log(err))
+    }
 
-  const onAdd = (count) => {
-    alert(`se agregaron ${count} productos`)
-  }
+}, [idCategory]);
+
+
   return (
     <>
-      <div>{greeting}</div>
+    
       <ItemList products = {datos} />
-      <ItemCount stock={5} initial={1} onAdd={onAdd} />
     </>
   )
 }

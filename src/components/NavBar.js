@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import CartWidget from "./CartWidget";
 
 
@@ -23,18 +24,18 @@ const NavBar = () => {
             </div>
             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
-                <a className="lg:block h-8 w-auto text-lg text-white"  >Logo </a>
+                <Link to='/' className="lg:block h-8 w-auto text-lg text-white"  >Logo </Link>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                 <div className="flex space-x-4">
                 
-                    <a href="#" className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Inicio</a>
+                    <Link to='/' className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" >Inicio</Link>
 
-                    <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Categorías</a>
+                    <Link to='/category/1' className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Cosmética</Link>
 
-                    <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Colecciones</a>
+                    <Link to='/category/2' className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Accesorios</Link>
 
-                    <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contacto</a>
+                    <Link to='/category/3' className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Zero Waste</Link>
                 </div>
                 </div>
             </div>
@@ -46,13 +47,14 @@ const NavBar = () => {
         <div className="sm:hidden" id="mobile-menu">
             <div className="px-2 pt-2 pb-3 space-y-1">
             
-            <a href="#" className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Inicio</a>
+            <Link to='/' className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Inicio</Link>
 
-            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Categorías</a>
+            <Link to='/category/1' className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Cosmética</Link>
 
-            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Colecciones</a>
+            <Link to='/category/2' className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Accesorios</Link>
 
-            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contacto</a>
+
+            <Link to='/category/3' className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Zero Waste</Link>
         </div>
 
 
