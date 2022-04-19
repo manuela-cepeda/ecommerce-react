@@ -6,19 +6,22 @@ import { useEffect, useState } from "react";
     const [count, setCount] = useState(0);
   
 
-    useEffect(() => {
+    useEffect((initial) => {
       setCount(initial)
     }, []);
 
-    const increment = () => {
+    const increment = (e) => {
+      e.preventDefault();
         if(count < stock){ setCount(count+1)} ;
     }
     
-    const decrement = () => {
+    const decrement = (e) => {
+      e.preventDefault();
         if(count > initial ) { setCount(count-1) };
     }
 
-    const handleAdd = () => {
+    const handleAdd = (e) => {
+        e.preventDefault();
         stock && onAdd(count) ;
     }
 
@@ -28,7 +31,7 @@ import { useEffect, useState } from "react";
     <div className="flex items-center	 ">
     <button className="btn btn-blue" onClick={increment}> + </button>
     <p> {count}</p>
-    <button className="btn btn-blue"onClick={decrement}> - </button>
+    <button className="btn btn-blue" onClick={decrement}> - </button>
     </div>
     <button className="btn btn-blue" onClick={handleAdd}>
         Agregar al Carrito
