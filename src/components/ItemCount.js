@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
     const [count, setCount] = useState(0);
   
 
-    useEffect((initial) => {
+    useEffect(() => {
       setCount(initial)
     }, []);
 
