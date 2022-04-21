@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import customFetch from "../utils/customFetch";
-import ItemCount from "./ItemCount";
 import ItemList from "./ItemList";
 
 const { products } = require('../utils/datos');

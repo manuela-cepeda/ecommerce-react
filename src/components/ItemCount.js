@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
  const ItemCount = ({ stock, initial, onAdd  }) => {
     const [count, setCount] = useState(0);
-  
+    
 
     useEffect(() => {
       setCount(initial)

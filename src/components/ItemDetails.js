@@ -1,15 +1,21 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import ButtonCart from "./ButtonCart"
+import { CartContext } from "./CartContext"
 import ItemCount from "./ItemCount"
 
 
 const ItemDetails = ({product}) => {
 
   const [itemCount, setItemCount] = useState(0)
+  const {addToCart}=useContext(CartContext)
+
+
+
 
   const onAdd = (cant) => {
     alert('Se han seleccionado ' + cant + ' items');
     setItemCount(cant)
+    addToCart(product, cant)
   }
 
   return (
