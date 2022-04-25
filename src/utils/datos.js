@@ -5,7 +5,7 @@ const products = [
       href: '#',
       imageSrc: 'https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg',
       imageAlt: "Crema hidratante",
-      price: '$800',
+      price: 800,
       size: '100ml',
       stock: 10,
       category: 1
@@ -16,7 +16,7 @@ const products = [
         href: '#',
         imageSrc: 'https://images.pexels.com/photos/8128069/pexels-photo-8128069.jpeg',
         imageAlt: "Tónico Tea Tree",
-        price: '$1000',
+        price:  1000,
         size: '200ml',
         stock: 10,
         category: 1
@@ -27,7 +27,7 @@ const products = [
         href: '#',
         imageSrc: 'https://images.pexels.com/photos/5462207/pexels-photo-5462207.jpeg',
         imageAlt: "Serum Vitamina C",
-        price: '$1500',
+        price:  1500,
         size: '200ml',
         stock: 10,
         category: 1
@@ -38,7 +38,7 @@ const products = [
         href: '#',
         imageSrc: 'https://images.pexels.com/photos/6621471/pexels-photo-6621471.jpeg',
         imageAlt: "Jabones corporales",
-        price: '$800',
+        price:  800,
         size: '-',
         stock: 10,
         category: 1
@@ -49,7 +49,7 @@ const products = [
         href: '#',
         imageSrc: 'https://images.pexels.com/photos/6621434/pexels-photo-6621434.jpeg',
         imageAlt: "Spa Facial Set",
-        price: '$1000',
+        price:  1000,
         size: '-',
         stock: 10,
         category: 2
@@ -60,7 +60,7 @@ const products = [
         href: '#',
         imageSrc: 'https://images.pexels.com/photos/3737592/pexels-photo-3737592.jpeg',
         imageAlt: "Cepillo Bambu",
-        price: '$700',
+        price:  700,
         size: '-',
         stock: 10,
         category: 3
@@ -71,7 +71,7 @@ const products = [
         href: '#',
         imageSrc: 'https://images.pexels.com/photos/5938412/pexels-photo-5938412.jpeg',
         imageAlt: "Copa Menstrual",
-        price: '$700',
+        price:  700,
         size: '-',
         stock: 10,
         category: 3
@@ -82,7 +82,7 @@ const products = [
         href: '#',
         imageSrc: 'https://images.pexels.com/photos/7262902/pexels-photo-7262902.jpeg',
         imageAlt: "Sorbete metálico",
-        price: '$500',
+        price:  500,
         size: '-',
         stock: 10,
         category: 3

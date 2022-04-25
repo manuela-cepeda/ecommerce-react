@@ -36,7 +36,7 @@ const ItemDetails = ({product}) => {
         {product.name}
         </h1>
         <div className="text-lg font-semibold text-slate-500">
-        {product.price}
+        $ {product.price}
         </div>
         <div className="w-full flex-none text-sm font-medium text-slate-700 my-2">
         {product.stock} unidades en stock

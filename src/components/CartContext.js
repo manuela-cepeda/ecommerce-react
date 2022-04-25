@@ -7,6 +7,14 @@ const CartContextProvider = ({children}) => {
 
     const [cartList, setCartList] = useState([])
 
+
+
+    const  cartCant = () => { 
+        
+        return cartList.map(item => item.cant).reduce((prev, curr) => prev + curr, 0);
+     }
+  
+
     const addToCart = (item, cant) => { 
         let found = cartList.find(product => product.id === item.id);
         if(!found ){
@@ -35,7 +43,7 @@ const CartContextProvider = ({children}) => {
         setCartList(result);
       }   
     return(
-        <CartContext.Provider value={{cartList, addToCart, deleteCart, deleteItem}}>
+        <CartContext.Provider value={{cartList, addToCart, deleteCart, deleteItem, cartCant}}>
             {children}
         </CartContext.Provider>
     );
