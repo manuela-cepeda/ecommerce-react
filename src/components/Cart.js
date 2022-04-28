@@ -17,9 +17,9 @@ export const Cart = () => {
     <span aria-hidden="true"> &larr;</span>
           Continuar comprando  
         </Link> 
-      <button className="btn btn-blue" onClick={deleteCart}  >
+      {cartList.length > 0 && <button className="btn btn-blue" onClick={deleteCart}  >
          Borrar todo 
-        </button>
+        </button>}
       </div>
 
     <div className=' container mx-auto px-4  lg:grid lg:grid-cols-3 lg:gap-2 '> 
