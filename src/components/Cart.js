@@ -1,6 +1,9 @@
 import React, { useContext } from 'react'
 import { CartContext } from './CartContext'
 import { Link } from "react-router-dom";
+import {  collection, doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import db from '../utils/firebaseConfig';
+
 
 
 export const Cart = () => {
@@ -8,6 +11,43 @@ export const Cart = () => {
   const {cartList, deleteCart, deleteItem}=useContext(CartContext)
   const subtotal = cartList.reduce((a, b) => a + (b['price'] * b['cant'] | 0), 0)
   const impuestos = subtotal* 0.21;
+  const total = subtotal + impuestos 
+
+  const handleCheckout = () => { 
+    let order = {
+      buyer: {
+        name: 'Manu Cep',
+        phone: 123456,
+        email: 'manucep@gmail.com'
+      },
+      items: cartList.map(item => {
+        return {
+        id: item.id,
+        title: item.name,
+        price: item.price,
+        qty: item.cant
+      }
+      }), 
+      date: serverTimestamp(),
+      total: total
+      
+    }
+    
+    const createNewOrder = async () => { 
+      const newOrderRef = doc(collection(db, "orders"));
+      await setDoc(newOrderRef, order)
+      return  newOrderRef
+     }
+   
+    
+    createNewOrder()
+      .then(result => alert('Se creo tu orden con el siguiente ID: ' + result.id ))
+      .catch(err => console.log(err))
+
+    deleteCart()
+   }
+
+
 
   return (
     <>
@@ -87,10 +127,11 @@ export const Cart = () => {
     </div>
     <div className="font-bold py-6 px-4 flex justify-between text-base font-medium text-gray-900">
       <p>Total</p>
-      <p>$ {subtotal + impuestos}</p>
+      <p>$ {total}</p>
     </div>
  
     <button className=' w-full btn btn-blue'
+    onClick={handleCheckout}
     >
    Finalizar mi compra
   </button>
