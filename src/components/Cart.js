@@ -61,7 +61,7 @@ export const Cart = () => {
          Borrar todo 
         </button>}
       </div>
-
+    
     <div className=' container mx-auto px-4  lg:grid lg:grid-cols-3 lg:gap-2 '> 
 
     <div className='col-span-2'> 
@@ -111,8 +111,11 @@ export const Cart = () => {
     ))
     :  <p className='container mx-auto py-10 px-4'>Tu carrito esta vacio</p>
     }
+    
     </div>
-    <div className='p-2 h-fit bg-gray-100 rounded' >
+
+    {cartList.length > 0 &&
+        <div className='p-2 h-fit bg-gray-100 rounded' >
     <div className="border-b border-gray-200 py-6 px-4 flex justify-between text-base font-medium text-gray-900">
       <p>Subtotal</p>
       <p>$ {subtotal}</p>
@@ -137,7 +140,7 @@ export const Cart = () => {
   </button>
 
     </div>
-
+    }
     </div>
    
     </>

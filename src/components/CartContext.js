@@ -10,8 +10,8 @@ const CartContextProvider = ({children}) => {
 
 
     const  cartCant = () => { 
-        
-        return cartList.map(item => item.cant).reduce((prev, curr) => prev + curr, 0);
+   
+        return cartList.map(item => item.cant).reduce(((prev, curr) => prev + curr), 0);
      }
   
 
@@ -31,6 +31,9 @@ const CartContextProvider = ({children}) => {
         }])
         }else{
             found.cant += cant;
+            setCartList([
+                ...cartList
+            ]);
         }
     }
 
