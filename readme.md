@@ -24,7 +24,7 @@ Ecommerce para ecotienda, realizado durante el curso de React en Coderhouse
 Clone the project
 
 ```bash
-  git clone https://github.com/manuela-cepeda/ecommerce-react/tree/entrega-final
+  git clone https://github.com/manuela-cepeda/ecommerce-react/
 ```
 
 Go to the project directory
