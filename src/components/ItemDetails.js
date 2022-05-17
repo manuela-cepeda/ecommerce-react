@@ -7,10 +7,7 @@ import ItemCount from "./ItemCount"
 const ItemDetails = ({product}) => {
 
   const [itemCount, setItemCount] = useState(0)
-  const {addToCart}=useContext(CartContext)
-
-
-
+  const {addToCart}=useContext(CartContext);
 
   const onAdd = (cant) => {
     alert('Se han seleccionado ' + cant + ' items');
@@ -46,7 +43,7 @@ const ItemDetails = ({product}) => {
       <div className="flex space-x-4 mb-6 text-sm font-medium">
         {
           itemCount === 0 
-          ? <ItemCount stock={5} initial={1} onAdd ={onAdd}/> 
+          ? <ItemCount stock={product.stock} initial={1} onAdd ={onAdd}/> 
           : <ButtonCart />
         }
         <button className="btn flex-none flex items-center justify-center btn text-slate-300 border border-slate-200" type="button" aria-label="Like">

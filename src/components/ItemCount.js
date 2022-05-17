@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 
 
  const ItemCount = ({ stock, initial, onAdd  }) => {
-    const [count, setCount] = useState(0);
-    
+
+    const [count, setCount] = useState(0);    
 
     useEffect(() => {
       setCount(initial)
@@ -29,11 +29,11 @@ import { useEffect, useState } from "react";
      <> 
      
     <div className="flex items-center	 ">
-    <button className="btn btn-blue" onClick={increment}> + </button>
+    <button className="btn btn-gray" onClick={increment}> + </button>
     <p> {count}</p>
-    <button className="btn btn-blue" onClick={decrement}> - </button>
+    <button className="btn btn-gray" onClick={decrement}> - </button>
     </div>
-    <button className="btn btn-blue" onClick={handleAdd}>
+    <button className="btn btn-gray" onClick={handleAdd}>
         Agregar al Carrito
     </button>
     </>

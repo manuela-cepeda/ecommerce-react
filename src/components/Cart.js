@@ -1,19 +1,25 @@
 import React, { useContext } from 'react'
 import { CartContext } from './CartContext'
 import { Link } from "react-router-dom";
-import {  collection, doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import {  collection, doc, increment, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import db from '../utils/firebaseConfig';
 
 
 
 export const Cart = () => {
 
-  const {cartList, deleteCart, deleteItem}=useContext(CartContext)
-  const subtotal = cartList.reduce((a, b) => a + (b['price'] * b['cant'] | 0), 0)
-  const impuestos = subtotal* 0.21;
-  const total = subtotal + impuestos 
+  const {cartList, deleteCart, deleteItem, calcSubtotal, calcTaxes, calcTotal}=useContext(CartContext)
 
-  const handleCheckout = () => { 
+
+  const handleCheckout = () => {
+    
+    cartList.forEach(async (item) => {
+      const itemRef = doc(db, "products",  item.id);
+      await updateDoc(itemRef, {
+        stock: increment(-item.qty)
+      });
+    });
+    
     let order = {
       buyer: {
         name: 'Manu Cep',
@@ -25,29 +31,25 @@ export const Cart = () => {
         id: item.id,
         title: item.name,
         price: item.price,
-        qty: item.cant
+        qty: item.qty
       }
       }), 
       date: serverTimestamp(),
-      total: total
-      
+      total: calcTotal()      
     }
     
-    const createNewOrder = async () => { 
+    const createNewOrderFirestore = async () => { 
       const newOrderRef = doc(collection(db, "orders"));
       await setDoc(newOrderRef, order)
       return  newOrderRef
-     }
-   
+     }  
     
-    createNewOrder()
+     createNewOrderFirestore()
       .then(result => alert('Se creo tu orden con el siguiente ID: ' + result.id ))
       .catch(err => console.log(err))
 
     deleteCart()
    }
-
-
 
   return (
     <>
@@ -57,7 +59,7 @@ export const Cart = () => {
     <span aria-hidden="true"> &larr;</span>
           Continuar comprando  
         </Link> 
-      {cartList.length > 0 && <button className="btn btn-blue" onClick={deleteCart}  >
+      {cartList.length > 0 && <button className="btn btn-gray" onClick={deleteCart}  >
          Borrar todo 
         </button>}
       </div>
@@ -83,13 +85,13 @@ export const Cart = () => {
         {product.name}
         </h1>
         <div className="text-lg font-semibold text-slate-500">
-        $ {product.price * product.cant}
+        $ {product.price * product.qty}
         </div>
         <div className="w-full flex-none text-sm font-medium text-slate-700 my-1">
         {product.stock ? ' en stock' : 'sin stock'} 
         </div>
         <div className="w-full flex-none text-sm font-medium text-slate-700 my-1">
-        {product.cant} items 
+        {product.qty} items 
         </div>
         <div className="w-full flex-none text-sm font-medium text-slate-700 my-1">
         $ {product.price}
@@ -98,7 +100,7 @@ export const Cart = () => {
      
       <div className="-mx-2 mb-2 text-sm font-medium  ">
                
-        <button className="btn btn-blue" onClick={()=>{deleteItem(product.id)}}  >
+        <button className="btn btn-gray" onClick={()=>{deleteItem(product.id)}}  >
           Borrar
         </button>
       </div>
@@ -118,11 +120,11 @@ export const Cart = () => {
         <div className='p-2 h-fit bg-gray-100 rounded' >
     <div className="border-b border-gray-200 py-6 px-4 flex justify-between text-base font-medium text-gray-900">
       <p>Subtotal</p>
-      <p>$ {subtotal}</p>
+      <p>$ {calcSubtotal()}</p>
     </div>
     <div className="border-b border-gray-200 py-6 px-4 flex justify-between text-base font-medium text-gray-900">
       <p>Impuestos</p>
-      <p>$ {impuestos}</p>
+      <p>$ {calcTaxes()}</p>
     </div>
     <div className="border-b border-gray-200 py-6 px-4 flex justify-between text-base font-medium text-gray-900">
       <p>Envio</p>
@@ -130,10 +132,10 @@ export const Cart = () => {
     </div>
     <div className="font-bold py-6 px-4 flex justify-between text-base font-medium text-gray-900">
       <p>Total</p>
-      <p>$ {total}</p>
+      <p>$ {calcTotal()}</p>
     </div>
  
-    <button className=' w-full btn btn-blue'
+    <button className=' w-full btn btn-gray'
     onClick={handleCheckout}
     >
    Finalizar mi compra

@@ -5,10 +5,10 @@
 .btn {
   @apply m-2 font-bold py-1 px-2 rounded;
 }
-.btn-blue {
+.btn-gray {
   @apply bg-gray-800 text-white;
 }
-.btn-blue:hover {
+.btn-gray:hover {
   @apply bg-gray-700;
 }
 
