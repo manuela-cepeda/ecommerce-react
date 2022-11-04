@@ -8,11 +8,18 @@ const ItemListContainer = () => {
 
   const [datos, setDatos] = useState([]);
   const {idCategory} = useParams();
- 
+  
   useEffect(() => {         
-    firestoreFetchItems(idCategory)
-        .then(result => setDatos(result))
-        .catch(err => console.log(err))
+    // firestoreFetchItems(idCategory)
+    //     .then(result => setDatos(result))
+    //     .catch(err => console.log(err))
+
+      fetch('http://localhost:8080/api/products')
+      .then(result=> result.json())
+      .then(json => setDatos(json) )
+      .catch(err => console.log(err))
+
+
 }, [idCategory]);
 
 

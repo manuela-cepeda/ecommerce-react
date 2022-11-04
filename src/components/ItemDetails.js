@@ -17,7 +17,7 @@ const ItemDetails = ({product}) => {
 
   return (
     <>
-    { product.id 
+    { product._id 
     ?
     <div key={product.id} className=" py-10 px-4" > 
     <div className="flex font-sans">

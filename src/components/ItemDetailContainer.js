@@ -9,10 +9,11 @@ const ItemDetailContainer = () => {
     const {idItem} = useParams();
 
     useEffect(() => {
-      
-      firestoreFetchItem(idItem)
-          .then(result => setItem(result))
-          .catch(err => console.log(err))
+      fetch(`http://localhost:8080/api/products/${idItem}`)
+      .then(result=> result.json())
+      .then(json => setItem(json) )
+      .catch(err => console.log(err))
+     
   }, [idItem]);
   
 

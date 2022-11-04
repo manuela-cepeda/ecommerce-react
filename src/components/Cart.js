@@ -67,7 +67,7 @@ export const Cart = () => {
     <div className=' container mx-auto px-4  lg:grid lg:grid-cols-3 lg:gap-2 '> 
 
     <div className='col-span-2'> 
-    <h2 className=" text-2xl m-2 font-extrabold text-gray-900">Tu Carrito</h2>
+    <h2 className=" text-2xl m-2 font-extrabold text-gray-900 ">Tu Carrito</h2>
     {cartList.length > 0 
     ?
     cartList?.map((product) => (
@@ -111,7 +111,7 @@ export const Cart = () => {
     </div>
     </div>    
     ))
-    :  <p className='container mx-auto py-10 px-4'>Tu carrito esta vacio</p>
+    :  <p className='container mx-auto py-10 px-4 '>Tu carrito esta vacio</p>
     }
     
     </div>
