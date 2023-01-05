@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
     useEffect(() => {
       setCount(initial)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const increment = (e) => {

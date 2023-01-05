@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { firestoreFetchItem } from "../utils/firestoreFetch";
 import ItemDetails from "./ItemDetails";
 
 const ItemDetailContainer = () => {
@@ -10,13 +9,23 @@ const ItemDetailContainer = () => {
 
     useEffect(() => {
       fetch(`http://localhost:8080/api/products/${idItem}`)
-      .then(result=> result.json())
+      .then(response=> {
+        if(response.ok){
+          return response.json()
+        } else{
+          return Promise.reject(response);
+        }
+      })
       .then(json => setItem(json) )
-      .catch(err => console.log(err))
+      .catch(response => {        
+        response.json().then((json) => {
+          alert(json.error);
+          window.history.back();
+        })
+      })
      
   }, [idItem]);
   
-
 
   return (
     <>

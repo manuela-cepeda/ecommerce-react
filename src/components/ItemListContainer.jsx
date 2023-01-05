@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ItemList from "./ItemList";
-import { firestoreFetchItems } from "../utils/firestoreFetch";
+
 
 
 const ItemListContainer = () => {
@@ -10,11 +10,8 @@ const ItemListContainer = () => {
   const {idCategory} = useParams();
   
   useEffect(() => {         
-    // firestoreFetchItems(idCategory)
-    //     .then(result => setDatos(result))
-    //     .catch(err => console.log(err))
 
-      fetch('http://localhost:8080/api/products')
+      fetch((idCategory === undefined) ? `http://localhost:8080/api/products` :  `http://localhost:8080/api/products/category/${idCategory}` )
       .then(result=> result.json())
       .then(json => setDatos(json) )
       .catch(err => console.log(err))

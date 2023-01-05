@@ -1,23 +1,27 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate  } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 
-
 export default function Login() {
 
+  // const { handleLogin, setIsLogged, isLogged } = useContext(AuthContext);
   let navigate = useNavigate();
-  const { handleLogin } = useContext(AuthContext);
+  const [formState, setFormState] = useState({password:'', email:''} )
 
+  const {password, email} = formState;    
+  useEffect(() => {
+    const isAuth = async () => {
+     const  response = await fetch('http://localhost:8080/api/sessions/isUserAuth',{    
+        headers: { "x-access-token": localStorage.getItem('session')}
+    }).then(result=> result.json())
 
-  const [formState, setFormState] = useState({
-    password:'',
-    email:''
-})
+    if(response.auth)  navigate('/')
+    }
+     isAuth()
 
-const {password, email} = formState;
+  }, [])
 
 const handleInputChange = ({target}) => {
-   
     setFormState({
         ...formState,
         [target.name]: target.value
@@ -26,30 +30,31 @@ const handleInputChange = ({target}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-   
-     const response = await  fetch('http://localhost:8080/api/sessions/login',{
-        method: 'POST',
-        body: JSON.stringify(formState),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
-    .then(result=> result.json())
-    console.log(response)
-    localStorage.setItem('session',JSON.stringify(response.payload));
-    handleLogin()
-
+    const response = await fetch('http://localhost:8080/api/sessions/login',{
+      method: 'POST',
+      body: JSON.stringify(formState),
+      headers: {
+          "Content-Type": "application/json"
+      }
+    }).then(result=> result.json())
+    
+    localStorage.setItem('session', response.token);
     if(response.success) navigate('/');
 
 }
+
+  const handleSubmitGoogle = async (e) => {
+    e.preventDefault()
+     window.open('http://localhost:8080/api/sessions/google', '_self')
+  }
 
     return (
       <>
         <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
           <div className="w-full max-w-md space-y-8">
             <div>
-           
-              <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+             <h1 className=" text-center text-3xl  text-gray-900  tracking-tight "  ><span className="font-bold">ECO</span>TIENDA </h1>
+              <h2 className="mt-4 text-center text-3xl font-bold tracking-tight text-gray-900">
                 Sign in to your account
               </h2>
               <p className="mt-2 text-center text-sm text-gray-600">
@@ -96,18 +101,7 @@ const handleInputChange = ({target}) => {
                 </div>
               </div>
   
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                  />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                    Remember me
-                  </label>
-                </div>
+              <div className="flex items-center justify-end">
   
                 <div className="text-sm">
                   <a href="#" className="font-medium  text-slate-600 hover:text-slate-500">
@@ -126,6 +120,21 @@ const handleInputChange = ({target}) => {
                 </button>
               </div>
             </form>
+            <div
+            className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5"
+               >
+            <p className="text-center text-sm text-gray-600 mx-4 mb-0">Or</p>
+          </div>
+          <div>
+          <button 
+             onClick={handleSubmitGoogle}
+            className="group relative flex w-full justify-center rounded-md border border-transparent py-2 px-4  w-full  btn-gray"
+          > 
+          <img src={require('../assets/Google-logo.png')} alt="Google Logo" className="w-5 h-5 mx-2"/>
+            Continue with Google
+          </button>
+        </div>
+              
           </div>
         </div>
       </>

@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {  HashRouter, Route, Routes } from 'react-router-dom';
 import CartContextProvider from './components/CartContext';
 import HomePage from './pages/HomePage';
 import { Cart } from './components/Cart';
@@ -9,15 +9,17 @@ import Register from './components/Register';
 import Login from './components/Login';
 import AuthContextProvider from './components/AuthContext';
 
+import io from 'socket.io-client';
+const socket = io('');
+
 
 function App() {
-  //TODO: Get user de sesion?, si no  hay es quetiene que mostrar login
-  // y si aprieta fegistrarse mostrar componente register 
-  //chequear desafio 12
+
+
   return (
     <AuthContextProvider> 
     <CartContextProvider>
-    <BrowserRouter > 
+    <HashRouter  > 
        <Routes>
         <Route  path='/' element={<HomePage />} >
           <Route  path='/' element={<ItemListContainer />} />
@@ -29,9 +31,10 @@ function App() {
         <Route  path='/register' element={<Register />} />
         
       </Routes>     
-    </BrowserRouter>
+    </HashRouter >
     </CartContextProvider>
     </AuthContextProvider>
+    
 
   )
 }

@@ -15,11 +15,12 @@ const ItemDetails = ({product}) => {
     addToCart(product, cant)
   }
 
+
   return (
     <>
     { product._id 
     ?
-    <div key={product.id} className=" py-10 px-4" > 
+    <div key={product._id } className=" py-10 px-4" > 
     <div className="flex font-sans">
     <div className="flex-none w-48 relative">
       <img 

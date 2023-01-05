@@ -5,27 +5,28 @@ export const AuthContext = createContext();
 const AuthContextProvider = ({children}) => { 
 
        
-    const [user, setUser] = useState(null) 
+    const [user, setUser] = useState( null ) 
+    const [isLogged, setIsLogged] = useState(user ? true : false)
     
-    
-    const handleLogin =  () => {
-        const user = JSON.parse(localStorage.getItem('session')) 
+    const handleLogin =  (user) => {
         setUser(user);
+        setIsLogged(true)
       };
     
       const handleLogout = () => {
         localStorage.setItem('session',null);
         setUser(null);
+        setIsLogged(false)
     };
 
 
 
     return(
         <AuthContext.Provider value={{
+            isLogged,
             user,
             handleLogin,
             handleLogout
-          
             }}>
             {children}
         </AuthContext.Provider>

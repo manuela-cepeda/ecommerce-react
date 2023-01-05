@@ -1,18 +1,66 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { AuthContext } from "./AuthContext";
 
 export const CartContext = createContext();
 
 const CartContextProvider = ({children}) => { 
 
+  const {user} = useContext(AuthContext); 
     const [cartList, setCartList] = useState([])    
+    const [cid, setCid] = useState() 
+    console.log(cartList)
 
-    const addToCart = (item, qty) => { 
-        let found = cartList.find(product => product.id === item.id);
+  useEffect(() => {
+    if(user){
+      const getCart = async ()=>{
+        const result =  await fetch(`http://localhost:8080/api/carts/mycart/${user.id}`)
+        .then(response=> response.json())
+        .catch(err => console.log(err))
+        setCid(result._id)
+        if(result.products?.length > 0) {
+          const getProduct = async (pid, qty)=>{
+            const result =  await fetch(`http://localhost:8080/api/products/${pid}`)
+            .then(response=> response.json())
+            .catch(err => console.log(err))
+            setCartList(cartList => cartList.concat({...result,  qty: qty}))
+    
+          }
+          result.products.forEach(el =>  getProduct(el.pid, el.qty))
+        
+        }
+  
+        if(!result._id && user){
+          const createCart = async ()=>{
+            const result =  await fetch('http://localhost:8080/api/carts',{
+              method: 'POST',
+              body: JSON.stringify( {buyer: user?.id}),
+              headers: { "Content-Type": "application/json" }
+            })
+            .then(response=> response.json())
+            .catch(err => console.log(err))
+            console.log(JSON.stringify(result))
+            setCid(result._id)
+    
+          }
+          createCart() 
+        } 
+      
+      }
+      getCart() 
+    }
+   
+ 
+
+  }, [user])
+
+
+    const addToCart = ( item, qty) => { 
+        let found = cartList.find(product => product._id === item._id);
         if(!found ){
             setCartList([
             ...cartList, 
             {
-            id: item.id,
+            _id: item._id,
             name: item.name,    
             imageSrc: item.imageSrc,
             imageAlt:  item.imageAlt,   
@@ -26,15 +74,50 @@ const CartContextProvider = ({children}) => {
                 ...cartList
             ]);
         }
-    }
+        
+        fetch(`http://localhost:8080/api/carts/${cid}/products`,{
+            method: 'POST',
+            body: JSON.stringify([{           
+              pid: item._id,    
+              qty
+            }]),
+            headers: {
+                "Content-Type": "application/json"
+            }
+          })
+          .then(response=> response.json())      
+          .catch(err => console.log(err))
+        
+          
+        }
+
 
     const deleteCart = () => { 
          setCartList([])
+
+         fetch(`http://localhost:8080/api/carts/${cid}`,{
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json"
+            }
+          })
+          .then(response=> response.json())      
+          .catch(err => console.log(err))
+
     }
 
-    const deleteItem = (id) => { 
-        let result = cartList.filter(item => item.id !== id);
-        setCartList(result);
+    const deleteItem = async (id) => { 
+        let newCart = cartList.filter(item => item._id !== id);
+        setCartList(newCart);
+
+       fetch(`http://localhost:8080/api/carts/${cid}/products/${id}`,{
+          method: 'DELETE',
+          headers: {
+              "Content-Type": "application/json"
+          }
+        })
+        .then(response=> response.json())      
+        .catch(err => console.log(err)) 
     } 
 
     const calcSubtotal = () => {
@@ -55,6 +138,7 @@ const CartContextProvider = ({children}) => {
     return(
         <CartContext.Provider value={{
             cartList, 
+            cid,
             addToCart,
             deleteCart, 
             deleteItem,

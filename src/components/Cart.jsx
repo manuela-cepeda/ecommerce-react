@@ -1,52 +1,54 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from './CartContext'
 import { Link } from "react-router-dom";
-import {  collection, doc, increment, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
-import db from '../utils/firebaseConfig';
+import { AuthContext } from './AuthContext';
 
 
 
 export const Cart = () => {
 
   const {cartList, deleteCart, deleteItem, calcSubtotal, calcTaxes, calcTotal}=useContext(CartContext)
+  const {user }=useContext(AuthContext)
 
 
-  const handleCheckout = () => {
-    
-    cartList.forEach(async (item) => {
-      const itemRef = doc(db, "products",  item.id);
-      await updateDoc(itemRef, {
-        stock: increment(-item.qty)
-      });
+  
+  const handleCheckout =  () => {
+    //update product stock !!!
+    cartList.forEach(async (item) => {   
+      const updatedProduct = { stock: item.stock - item.qty }
+  
+    fetch(`http://localhost:8080/api/products/${item.id}`,{
+      method: 'PUT',
+      body: JSON.stringify(updatedProduct),
+      headers: {
+          "Content-Type": "application/json"
+      }
+    })
+    .then(result=> result.json())
+    .then(json => console.log(json))
+    .catch(err => console.log(err))
+
     });
     
     let order = {
-      buyer: {
-        name: 'Manu Cep',
-        phone: 123456,
-        email: 'manucep@gmail.com'
-      },
-      items: cartList.map(item => {
-        return {
-        id: item.id,
-        title: item.name,
-        price: item.price,
-        qty: item.qty
-      }
-      }), 
-      date: serverTimestamp(),
+      buyer: user.email, 
+      products: cartList, 
       total: calcTotal()      
     }
+  
+    fetch(`http://localhost:8080/api/orders`,{
+    method: 'POST',
+    body: JSON.stringify(order),
+    headers: {
+        "Content-Type": "application/json"
+    }
+  })
+  .then(result=> result.json())
+  .then(json => console.log(json))
+  .catch(err => console.log(err))
     
-    const createNewOrderFirestore = async () => { 
-      const newOrderRef = doc(collection(db, "orders"));
-      await setDoc(newOrderRef, order)
-      return  newOrderRef
-     }  
     
-     createNewOrderFirestore()
-      .then(result => alert('Se creo tu orden con el siguiente ID: ' + result.id ))
-      .catch(err => console.log(err))
+   
 
     deleteCart()
    }

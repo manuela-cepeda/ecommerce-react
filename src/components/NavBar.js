@@ -8,7 +8,6 @@ import LogoutWidget from "./LogoutWidget";
 const NavBar = () => {
     const {  user } = useContext(AuthContext);
 
-
     return (
         <nav className="bg-gray-800">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -45,7 +44,7 @@ const NavBar = () => {
                 </div>
                 </div>
             </div>
-             <p  className=' text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium py-3 ' >{user.name}</p>
+             <p  className=' text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium py-3 ' >{user?.name}</p>
              <CartWidget  className='py-2' />
              <LogoutWidget  className='py-2'/>
             </div>
