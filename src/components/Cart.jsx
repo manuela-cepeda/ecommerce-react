@@ -9,15 +9,15 @@ export const Cart = () => {
 
   const {cartList, deleteCart, deleteItem, calcSubtotal, calcTaxes, calcTotal}=useContext(CartContext)
   const {user }=useContext(AuthContext)
-
-
+  
+  console.log(cartList)
   
   const handleCheckout =  () => {
     //update product stock !!!
     cartList.forEach(async (item) => {   
       const updatedProduct = { stock: item.stock - item.qty }
   
-    fetch(`${process.env.REACT_APP_API_BASE_URL}/api/products/${item.id}`,{
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/api/products/${item._id}`,{
       method: 'PUT',
       body: JSON.stringify(updatedProduct),
       headers: {
@@ -73,7 +73,7 @@ export const Cart = () => {
     {cartList.length > 0 
     ?
     cartList?.map((product) => (
-      <div key={product.id} className="container mx-auto py-10 px-4" > 
+      <div key={product._id} className="container mx-auto py-10 px-4" > 
     <div className="flex font-sans">
     <div className="flex-none w-48 relative">
       <img 
@@ -102,7 +102,7 @@ export const Cart = () => {
      
       <div className="-mx-2 mb-2 text-sm font-medium  ">
                
-        <button className="btn btn-gray" onClick={()=>{deleteItem(product.id)}}  >
+        <button className="btn btn-gray" onClick={()=>{deleteItem(product._id)}}  >
           Borrar
         </button>
       </div>

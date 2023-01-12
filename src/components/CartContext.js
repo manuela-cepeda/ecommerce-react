@@ -108,7 +108,7 @@ const CartContextProvider = ({children}) => {
     const deleteItem = async (id) => { 
         let newCart = cartList.filter(item => item._id !== id);
         setCartList(newCart);
-
+      
        fetch(`${process.env.REACT_APP_API_BASE_URL}/api/carts/${cid}/products/${id}`,{
           method: 'DELETE',
           headers: {
