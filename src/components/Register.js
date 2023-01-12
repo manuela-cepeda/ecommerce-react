@@ -34,7 +34,7 @@ export default function Register({history}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-     const response = await  fetch('http://localhost:8080/api/sessions/register',{
+     const response = await  fetch(`${process.env.REACT_APP_API_BASE_URL}/api/sessions/register`,{
         method: 'POST',
         body: JSON.stringify(formState),
         headers: {

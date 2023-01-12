@@ -8,18 +8,17 @@ const CartContextProvider = ({children}) => {
   const {user} = useContext(AuthContext); 
     const [cartList, setCartList] = useState([])    
     const [cid, setCid] = useState() 
-    console.log(cartList)
 
   useEffect(() => {
     if(user){
       const getCart = async ()=>{
-        const result =  await fetch(`http://localhost:8080/api/carts/mycart/${user.id}`)
+        const result =  await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/carts/mycart/${user.id}`)
         .then(response=> response.json())
         .catch(err => console.log(err))
         setCid(result._id)
         if(result.products?.length > 0) {
           const getProduct = async (pid, qty)=>{
-            const result =  await fetch(`http://localhost:8080/api/products/${pid}`)
+            const result =  await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/products/${pid}`)
             .then(response=> response.json())
             .catch(err => console.log(err))
             setCartList(cartList => cartList.concat({...result,  qty: qty}))
@@ -31,7 +30,7 @@ const CartContextProvider = ({children}) => {
   
         if(!result._id && user){
           const createCart = async ()=>{
-            const result =  await fetch('http://localhost:8080/api/carts',{
+            const result =  await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/carts`,{
               method: 'POST',
               body: JSON.stringify( {buyer: user?.id}),
               headers: { "Content-Type": "application/json" }
@@ -75,7 +74,7 @@ const CartContextProvider = ({children}) => {
             ]);
         }
         
-        fetch(`http://localhost:8080/api/carts/${cid}/products`,{
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/api/carts/${cid}/products`,{
             method: 'POST',
             body: JSON.stringify([{           
               pid: item._id,    
@@ -95,7 +94,7 @@ const CartContextProvider = ({children}) => {
     const deleteCart = () => { 
          setCartList([])
 
-         fetch(`http://localhost:8080/api/carts/${cid}`,{
+         fetch(`${process.env.REACT_APP_API_BASE_URL}/api/carts/${cid}`,{
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json"
@@ -110,7 +109,7 @@ const CartContextProvider = ({children}) => {
         let newCart = cartList.filter(item => item._id !== id);
         setCartList(newCart);
 
-       fetch(`http://localhost:8080/api/carts/${cid}/products/${id}`,{
+       fetch(`${process.env.REACT_APP_API_BASE_URL}/api/carts/${cid}/products/${id}`,{
           method: 'DELETE',
           headers: {
               "Content-Type": "application/json"

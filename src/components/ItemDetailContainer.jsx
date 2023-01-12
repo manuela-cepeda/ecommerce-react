@@ -8,7 +8,7 @@ const ItemDetailContainer = () => {
     const {idItem} = useParams();
 
     useEffect(() => {
-      fetch(`http://localhost:8080/api/products/${idItem}`)
+      fetch(`${process.env.REACT_APP_API_BASE_URL}/api/products/${idItem}`)
       .then(response=> {
         if(response.ok){
           return response.json()

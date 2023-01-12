@@ -17,7 +17,7 @@ export const Cart = () => {
     cartList.forEach(async (item) => {   
       const updatedProduct = { stock: item.stock - item.qty }
   
-    fetch(`http://localhost:8080/api/products/${item.id}`,{
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/api/products/${item.id}`,{
       method: 'PUT',
       body: JSON.stringify(updatedProduct),
       headers: {
@@ -36,7 +36,7 @@ export const Cart = () => {
       total: calcTotal()      
     }
   
-    fetch(`http://localhost:8080/api/orders`,{
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/api/orders`,{
     method: 'POST',
     body: JSON.stringify(order),
     headers: {

@@ -7,13 +7,13 @@ import NavBar from '../components/NavBar';
 
 function HomePage() {
 
-  const {handleLogin} = useContext(AuthContext);
+  const {handleLogin } = useContext(AuthContext);
   const navigate = useNavigate() 
   
   useEffect(() => {
     const cookie = document.cookie.split('; ').find((row) => row.startsWith('cOokieCoDer='))?.split('=')[1];
     const isAuth = async () => {
-      const response = await fetch('http://localhost:8080/api/sessions/isUserAuth',{    
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/sessions/isUserAuth`,{    
          headers: {"x-access-token": (cookie || localStorage.getItem('session'))}
      }).then(result=> result.json())
    
@@ -32,7 +32,8 @@ function HomePage() {
     <> 
       <NavBar />
       <Outlet /> 
-      {/* <Chat /> no terminado */}
+       <Chat /> 
+      
     </>
   
     )

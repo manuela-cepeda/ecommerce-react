@@ -44,7 +44,7 @@ const NavBar = () => {
                 </div>
                 </div>
             </div>
-             <p  className=' text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium py-3 ' >{user?.name}</p>
+             <p  className=' text-white  px-3 py-2 rounded-md text-sm font-medium py-3 ' >{user?.name}</p>
              <CartWidget  className='py-2' />
              <LogoutWidget  className='py-2'/>
             </div>

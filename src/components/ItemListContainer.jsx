@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ItemList from "./ItemList";
-
+import NewProduct from "./NewProduct";
+import { AuthContext } from "./AuthContext";
 
 
 const ItemListContainer = () => {
 
   const [datos, setDatos] = useState([]);
   const {idCategory} = useParams();
-  
-  useEffect(() => {         
+  const { user} = useContext(AuthContext );
 
-      fetch((idCategory === undefined) ? `http://localhost:8080/api/products` :  `http://localhost:8080/api/products/category/${idCategory}` )
+  useEffect(() => {         
+      console.log(process.env.REACT_APP_API_BASE_URL)
+      fetch((idCategory === undefined) ? `${process.env.REACT_APP_API_BASE_URL}/api/products` : `${process.env.REACT_APP_API_BASE_URL}/api/products/category/${idCategory}` )
       .then(result=> result.json())
       .then(json => setDatos(json) )
       .catch(err => console.log(err))
@@ -19,10 +21,13 @@ const ItemListContainer = () => {
 
 }, [idCategory]);
 
-
   return (
     <>    
-      <ItemList products = {datos} />
+      <ItemList products = {datos} />¨
+      {/* {user?.role === 'admin' &&
+         <NewProduct />
+      }   */}
+     
     </>
   )
 }

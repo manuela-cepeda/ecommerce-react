@@ -11,7 +11,7 @@ export default function Login() {
   const {password, email} = formState;    
   useEffect(() => {
     const isAuth = async () => {
-     const  response = await fetch('http://localhost:8080/api/sessions/isUserAuth',{    
+     const  response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/sessions/isUserAuth`,{    
         headers: { "x-access-token": localStorage.getItem('session')}
     }).then(result=> result.json())
 
@@ -30,13 +30,14 @@ const handleInputChange = ({target}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const response = await fetch('http://localhost:8080/api/sessions/login',{
+    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/sessions/login`,{
       method: 'POST',
       body: JSON.stringify(formState),
       headers: {
           "Content-Type": "application/json"
       }
     }).then(result=> result.json())
+    if(!response.success){alert('hubo un problema con el login, intentelo nuevamente')}
     
     localStorage.setItem('session', response.token);
     if(response.success) navigate('/');
@@ -45,7 +46,7 @@ const handleInputChange = ({target}) => {
 
   const handleSubmitGoogle = async (e) => {
     e.preventDefault()
-     window.open('http://localhost:8080/api/sessions/google', '_self')
+     window.open(`${process.env.REACT_APP_API_BASE_URL}/api/sessions/google`, '_self')
   }
 
     return (

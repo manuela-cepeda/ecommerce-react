@@ -9,9 +9,6 @@ import Register from './components/Register';
 import Login from './components/Login';
 import AuthContextProvider from './components/AuthContext';
 
-import io from 'socket.io-client';
-const socket = io('');
-
 
 function App() {
 
